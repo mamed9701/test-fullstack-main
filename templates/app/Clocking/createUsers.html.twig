@@ -1,0 +1,41 @@
+{# Ce template étend le template 'base.html.twig' #}
+{% extends 'base.html.twig' %}
+
+{# Début du bloc 'body' qui sera injecté dans le template parent #}
+{% block body %}
+
+    <div class="row">
+       
+        <div class="col-6 mx-auto">
+            
+            {# Démarre le formulaire avec la variable 'form' #}
+            {{ form_start(form) }}
+            
+            <h2>Pointer Collaborateurs</h2>
+            
+            {# Rend le champ 'clockingUsers' du formulaire #}
+            {{ form_row(form.clockingUsers) }}
+            
+            {# Rend le champ 'clockingProject' du formulaire #}
+            {{ form_row(form.clockingProject) }}
+            
+            {# Rend le champ 'date' du formulaire #}
+            {{ form_row(form.date) }}
+
+            {# Termine le formulaire #}
+            {{ form_end(form) }}
+        </div>
+    </div>
+    
+{# Fin du bloc 'body' #}
+{% endblock %}
+
+{# Début du bloc 'javascripts' pour ajouter des scripts spécifiques à cette page #}
+{% block javascripts %}
+    <script>
+        //Initialisation du plugin Select2 pour les éléments avec la classe 'select2' lorsque le document est prêt
+        $(document).ready(function() {
+            $('.select2').select2();  // Applique Select2 aux éléments avec la classe 'select2'
+        });
+    </script>
+{% endblock %}

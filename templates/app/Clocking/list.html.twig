@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h2>Liste des Pointages</h2>
+            
+    <tr>
+        <td><a href="{{ path('app_Clocking_createUser') }}" class="btn btn-primary" role="button" data-bs-toggle="button">Je pointe </a></td>
+        <td><a href="{{ path('app_Clocking_CreateUsers') }}" class="btn btn-primary" role="button" data-bs-toggle="button">Pointer Collaborateurs</a></td>
+    </tr>
+
+    <table class="table">
+        <thead>          
+            <tr>
+                <th scope="col">{{ 'entity.User.date'|trans }}</td>
+                <th scope="col">{{ 'entity.Clocking.duration'|trans }}</td>
+                <th scope="col">{{ 'entity.Clocking.clockingProject'|trans }}</td>
+                <th scope="col">{{ 'entity.Clocking.clockingUser'|trans }}</td>
+                <th scope="col">Actions</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for clocking in clockings %}
+                <tr>
+                    <td>{{ clocking.date|date('d/m/Y')}}</td>
+                    <td style = 'text-align: center;'>{{ clocking.duration }}</td>
+                    <td>{{ clocking.clockingProject.name }}</td>
+                    <td>
+                        {% for name in clocking.clockingUsers %}
+                        <ull>
+                            <li>
+                                {{ name.lastName }} {{ name.firstName }}
+                            </li>
+                        </ul>
+                        {% endfor %}
+                    </td>
+                    
+                    <td>
+                        <a href="{{ path('app_Clocking_delete', {id: clocking.id}) }}">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

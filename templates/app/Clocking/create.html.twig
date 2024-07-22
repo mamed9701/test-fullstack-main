@@ -1,0 +1,74 @@
+{# Ce template étend le template 'base.html.twig' #}
+{% extends 'base.html.twig' %}
+
+{# Début du bloc 'body' qui sera injecté dans le template parent #}
+{% block body %}
+
+
+    <div class="row">
+        <div class="col-6 mx-auto">
+            <h2> JE POINTE</h2>
+            
+            {# Démarre le formulaire avec la variable 'form' #}
+            {{ form_start(form) }}
+                
+                {# Rend le champ 'firstName' du formulaire #}
+                {{ form_row(form.firstName) }}
+                
+                {# Rend le champ 'lastName' du formulaire #}
+                {{ form_row(form.lastName) }}
+                
+                {# Rend le champ 'date' du formulaire #}
+                {{ form_row(form.date) }}
+
+                <h2>Chantiers</h2>
+                
+                {# Div contenant la liste des 'clockings' avec un prototype pour ajouter dynamiquement des éléments #}
+                <div id="clockings-list" data-prototype="{{ form_widget(form.clockings.vars.prototype)|e('html_attr') }}">
+                    
+                    {# Boucle sur chaque 'clocking' dans le formulaire et affiche son rendu #}
+                    {% for clocking in form.clockings %}
+                        <div class="clocking-item">
+                            {{ form_row(clocking) }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <br>
+                
+                {# Bouton pour ajouter un nouvel élément 'clocking' #}
+                <button type="button" id="add-clocking" class="btn btn-warning">Ajouter un chantier</button>
+            
+            {# Termine le formulaire #}
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+<script>
+    //Ajoute un écouteur d'événement au bouton pour ajouter un 'clocking'
+    document.getElementById('add-clocking').addEventListener('click', function() {
+        var list = document.getElementById('clockings-list');  // Récupère la liste des 'clockings'
+        var prototype = list.dataset.prototype;  // Récupère le prototype HTML pour un 'clocking'
+        var index = list.children.length;  // Calcule l'index pour le nouvel élément
+        var newForm = prototype.replace(/__name__/g, index);  // Remplace le placeholder par l'index
+        var newElement = document.createElement('div');  // Crée une nouvelle div pour le 'clocking'
+        newElement.classList.add('clocking-item');  // Ajoute une classe à la nouvelle div
+        newElement.innerHTML = newForm;  // Insère le contenu HTML du nouveau 'clocking'
+        addRemoveButton(newElement);  // Ajoute un bouton pour supprimer le 'clocking'
+        list.appendChild(newElement);  // Ajoute la nouvelle div à la liste des 'clockings'
+    });
+
+    //Fonction pour ajouter un bouton de suppression à un 'clocking'
+    function addRemoveButton(element) {
+        var removeButton = document.createElement('button');  // Crée un bouton de suppression
+        removeButton.type = 'button';  // Définit le type du bouton
+        removeButton.className = 'btn btn-danger remove-clocking';  // Ajoute des classes Bootstrap pour le style
+        removeButton.textContent = 'Supprimer';  // Définit le texte du bouton
+        removeButton.addEventListener('click', function() {
+            element.remove();  // Supprime le 'clocking' de la liste
+        });
+        element.appendChild(removeButton);  // Ajoute le bouton de suppression au 'clocking'
+    }
+</script>
+
+{# Fin du bloc 'body'#}
+{% endblock %}

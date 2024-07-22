@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Liste des Collaborateurs</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="row">{{ 'entity.User.firstName'|trans }}</td>
+                <th scope="row">{{ 'entity.User.lastName'|trans }}</td>
+                <th scope="row">{{ 'entity.User.matricule'|trans }}</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.lastName }}</td>
+                    <td>{{ user.matricule }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
